@@ -18,13 +18,15 @@ class Jarvis_Memory(object):
             if user_structure in self.statement_data_points:
                 data_points = self.statement_data_points[user_structure]
                 if len(data_points) == 2:
-                    self.knowledge[user_input[data_points[0]]] = str(user_input[data_points[1]])
+                    if user_input[data_points[0]] not in self.knowledge:
+                        self.knowledge[user_input[data_points[0]]] = [[], {}]
+                    self.knowledge[user_input[data_points[0]]][0] += [str(user_input[data_points[1]])]
                 else:
                     if user_input[data_points[0]] in self.knowledge:
-                        self.knowledge[user_input[data_points[0]]][user_input[data_points[1]]] = str(user_input[data_points[2]])
+                        self.knowledge[user_input[data_points[0]]][1][user_input[data_points[1]]] = str(user_input[data_points[2]])
                     else:
-                        self.knowledge[user_input[data_points[0]]] = {}
-                        self.knowledge[user_input[data_points[0]]][user_input[data_points[1]]] = str(user_input[data_points[2]])
+                        self.knowledge[user_input[data_points[0]]] = [[], {}]
+                        self.knowledge[user_input[data_points[0]]][1][user_input[data_points[1]]] = str(user_input[data_points[2]])
                 print('Added:', [user_input[point] for point in data_points])
             else:
                 data_points = raw_input('Give the statement data points:')
@@ -38,8 +40,8 @@ class Jarvis_Memory(object):
         else:
             data_points = self.question_data_points[user_structure]
             if user_input[data_points[0]] in self.knowledge:
-                if user_input[data_points[1]] in self.knowledge[user_input[data_points[0]]]:
-                    return self.knowledge[user_input[data_points[0]]][user_input[data_points[1]]]
+                if user_input[data_points[1]] in self.knowledge[user_input[data_points[0]]][1]:
+                    return self.knowledge[user_input[data_points[0]]][1][user_input[data_points[1]]]
                 else:
                     print('missing attribute in knowledge')
             else:
