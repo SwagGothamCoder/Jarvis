@@ -1,5 +1,3 @@
-import nltk
-
 class Jarvis_Memory(object):
     def __init__(self):
         self.knowledge = {}
@@ -10,11 +8,13 @@ class Jarvis_Memory(object):
         if '?' in user_input:
             data_points = raw_input('Give the question data points:')
             data_points = [int(c) for c in data_points.split()]
-            self.question_data_points[user_structure] = list(data_points)
+            self.question_data_points[user_structure] = [list(data_points), 'False']
+            
+            special = raw_input('Does the question require a special process to find an answer? (True or False):')
+            if special == 'True':
+                process_name = raw_input('What is the name of this process? ')
+                self.question_data_points[user_structure][1] = process_name
         else:
-            hierarchical_parent = ''
-            attribute = ''
-            value = ''
             if user_structure in self.statement_data_points:
                 data_points = self.statement_data_points[user_structure]
                 if len(data_points) == 2:
@@ -38,11 +38,14 @@ class Jarvis_Memory(object):
         if user_structure not in self.question_data_points:
             print('ERROR: not in question_data_points.')
         else:
-            data_points = self.question_data_points[user_structure]
-            if user_input[data_points[0]] in self.knowledge:
-                if user_input[data_points[1]] in self.knowledge[user_input[data_points[0]]][1]:
-                    return self.knowledge[user_input[data_points[0]]][1][user_input[data_points[1]]]
-                else:
-                    print('missing attribute in knowledge')
+            if self.question_data_points[user_structure][1] != 'False':
+                return 'PROCESS: '+self.question_data_points[user_structure][1], self.question_data_points[user_structure][0]
             else:
-                print('missing hierarchical parent in knowledge')
+                data_points = self.question_data_points[user_structure][0]
+                if user_input[data_points[0]] in self.knowledge:
+                    if user_input[data_points[1]] in self.knowledge[user_input[data_points[0]]][1]:
+                        return self.knowledge[user_input[data_points[0]]][1][user_input[data_points[1]]]
+                    else:
+                        print('missing attribute in knowledge')
+                else:
+                    print('missing hierarchical parent in knowledge')

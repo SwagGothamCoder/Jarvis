@@ -1,11 +1,13 @@
 import nltk
 import pattern.en as pattern
+import jarvis_actions
 
 from jarvis_memory import Jarvis_Memory
 
 #nltk.help.upenn_tagset()
 jm = Jarvis_Memory()
 phrase_structures = {}
+actions = {'find_location': jarvis_actions.find_location}
 
 def conjugate_verb(verb, user_input):
     if verb == pattern.conjugate(verb, person=1):
@@ -80,7 +82,12 @@ while True:
             print(phrase_structures[input_structure])
             print('Response:', generate_output(user_input, phrase_structures[input_structure]))
             if '?' in user_input:
-                print('Answer:', jm.retrieve_from_knowledge(input_structure, user_input))
+                knowledge_base_response, data_points = jm.retrieve_from_knowledge(input_structure, user_input)
+                if knowledge_base_response.startswith('PROCESS:'):
+                    answer = actions[knowledge_base_response[knowledge_base_response.index(':')+2:]](nltk.word_tokenize(input_structure), user_input, phrase_structures, data_points)
+                else:
+                    answer = knowledge_base_response
+                print('Answer:', answer)
             else:
                 jm.add_to_knowledge(input_structure, user_input)
         else:
