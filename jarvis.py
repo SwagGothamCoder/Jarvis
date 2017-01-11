@@ -7,7 +7,7 @@ from jarvis_memory import Jarvis_Memory
 #nltk.help.upenn_tagset()
 jm = Jarvis_Memory()
 phrase_structures = {}
-actions = {'find_location': jarvis_actions.find_location}
+actions = {'find_location': jarvis_actions.find_location, 'nav': jarvis_actions.nav}
 
 def conjugate_verb(verb, user_input):
     if verb == pattern.conjugate(verb, person=1):
