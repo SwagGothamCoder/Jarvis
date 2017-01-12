@@ -83,6 +83,7 @@ while True:
             print('Response:', generate_output(user_input, phrase_structures[input_structure]))
             if '?' in user_input:
                 knowledge_base_response = jm.retrieve_from_knowledge(input_structure, user_input)
+                print('stuff', knowledge_base_response)
                 if knowledge_base_response[0][0].startswith('PROCESS:'):
                     knowledge_base_response, data_points = knowledge_base_response[0]
                     answer = actions[knowledge_base_response[knowledge_base_response.index(':')+2:]](nltk.word_tokenize(input_structure), user_input, phrase_structures, data_points)

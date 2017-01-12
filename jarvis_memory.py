@@ -47,7 +47,7 @@ class Jarvis_Memory(object):
             print('ERROR: not in question_data_points.')
         else:
             if self.question_data_points[user_structure][1] != 'False':
-                return 'PROCESS: '+self.question_data_points[user_structure][1], self.question_data_points[user_structure][0]
+                return [('PROCESS: '+self.question_data_points[user_structure][1], self.question_data_points[user_structure][0])]
             else:
                 output = []
                 phrase_data_points = [[]]
