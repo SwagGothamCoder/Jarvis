@@ -10,6 +10,7 @@ phrase_structures = {}
 actions = {'find_location': jarvis_actions.find_location, 'nav': jarvis_actions.nav}
 
 def conjugate_verb(verb, user_input):
+    '''Returns a verb that has been conjugated to match the changed perspective from the user's input to the computer's output.'''
     if verb == pattern.conjugate(verb, person=1):
         return pattern.conjugate(verb, person=2)
     elif verb == pattern.conjugate(verb, person=2) and (user_input[user_input.index(verb)-1].lower() == 'you' or user_input[user_input.index(verb)+1].lower() == 'you'):
@@ -18,6 +19,7 @@ def conjugate_verb(verb, user_input):
         return verb
 
 def get_word_to_compare(user_structure, user_input, tag_counts, part_of_speech):
+    '''Returns the nth word of a specific part of speech in the user's input, where n is the number of times the computer has iterated over a word of the same part of speech in the output structure.'''
     word_to_compare = ''
     count = 0
     for i, tag in enumerate(user_structure):
@@ -28,6 +30,7 @@ def get_word_to_compare(user_structure, user_input, tag_counts, part_of_speech):
     return word_to_compare
 
 def generate_output(user_input, structure):
+    '''Returns a list that has replaced some of the output structure list elements with words that could be determined by the context of the user's input.'''
     structure = list(structure)
     user_structure = nltk.pos_tag(user_input)
     user_structure = [tag[1] for tag in user_structure]

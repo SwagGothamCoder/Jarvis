@@ -3,6 +3,7 @@ import webbrowser
 session_data = {'current_loc': ''}
 
 def find_location(input_structure, user_input, phrase_structures, data_points):
+    '''Opens google maps showing the location of the queried place and then returns a string containing Jarvis' verbal response.'''
     loc = ''
     if data_points:
         loc = ''.join(user_input[point]+' ' for point in data_points)
@@ -20,6 +21,7 @@ def find_location(input_structure, user_input, phrase_structures, data_points):
     return 'Locating '+loc+'.'
 
 def nav(input_structure, user_input, phrase_structures, data_points):
+    '''Opens google maps with the directions asked for and then returns a string containing Jarvis' verbal response.'''
     current_loc = session_data['current_loc']
     if not session_data['current_loc']:
         current_loc = raw_input('Where are you?')

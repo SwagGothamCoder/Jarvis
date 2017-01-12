@@ -5,6 +5,7 @@ class Jarvis_Memory(object):
         self.question_data_points = {}
     
     def add_to_knowledge(self, user_structure, user_input):
+        '''Takes a user's statement and adds new information to the knowledge base or can be used to learn about the significant data_points in a new sentence structure.'''
         if '?' in user_input:
             data_points = raw_input('Give the question data points:')
             data_points = [int(c) for c in data_points.split()]
@@ -43,6 +44,7 @@ class Jarvis_Memory(object):
         print('Knowledge', self.knowledge)
     
     def retrieve_from_knowledge(self, user_structure, user_input):
+        '''Returns the answers to the user's question if found in the knowledge base.'''
         if user_structure not in self.question_data_points:
             print('ERROR: not in question_data_points.')
         else:
